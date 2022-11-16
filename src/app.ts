@@ -12,7 +12,7 @@ mongoconnection();
 app.use(cors({ origin: "*" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded(Object({ extended: true })));
-app.use("/get-api", serviceRoot);
+app.use("/user", serviceRoot);
 
 const port = process.env.PORT;
 app.listen(port, (): void => {

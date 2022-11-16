@@ -72,7 +72,7 @@ export const edittask = async (req: Request, res: Response) => {
   try {
     const details = await axios({
       url: `${base_url}/user/update-task`,
-      method: "put",
+      method: "post",
       data: req.body,
     });
 
