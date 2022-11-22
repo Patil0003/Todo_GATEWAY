@@ -16,6 +16,6 @@ app.use("/user", serviceRoot);
 
 const port = process.env.PORT;
 app.listen(port, (): void => {
-  console.log(`Server Running on ${port}`);
+  console.log(`Port :- ${port}`);
 });
 export default app;
