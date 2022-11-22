@@ -50,7 +50,7 @@ export const addtask = async (req: Request, res: Response) => {
 
     return res.json({ status: true, data: details.data });
   } catch (error: any) {
-    console.log("error", error);
+    console.log("error jhghghfhhgfhg", error);
     throw { status: false, error: error.data };
   }
 };
