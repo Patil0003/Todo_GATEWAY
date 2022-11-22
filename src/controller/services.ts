@@ -14,6 +14,7 @@ export const userRegister = async (req: Request, res: Response) => {
       url: `${base_url}/user/signup`,
       method: "post",
       data: req.body,
+      // utuytyrtuyrtuyruyrrtuyruryryruyrrt
     
     });
 
