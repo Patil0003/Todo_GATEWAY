@@ -14,9 +14,7 @@ export const userRegister = async (req: Request, res: Response) => {
       url: `${base_url}/user/signup`,
       method: "post",
       data: req.body,
-      //  data: formData,
-
-    // headers: { "Content-Type": "multipart/form-data" },
+    
     });
 
     return res.send({ status: true, data: details.data });
