@@ -19,7 +19,6 @@ export const userRegister = async (req: Request, res: Response) => {
 
     return res.status(200).json({ data: details.data });
     } catch (error: any) {
-    console.log("error", error);
     throw { status: 404, error: error.data };
   }
 };
@@ -34,7 +33,6 @@ export const userLogin = async (req: Request, res: Response) => {
 
     return res.status(200).json({ data: details.data });
   } catch (error: any) {
-    console.log("error", error);
     throw { status: 404, error: error.data };
   }
 };
@@ -49,7 +47,6 @@ export const addtask = async (req: Request, res: Response) => {
 
     return res.status(200).json({ data: details.data });
   } catch (error: any) {
-    console.log("error jhghghfhhgfhg", error);
     throw { status: 404, error: error.data };
   }
 };
@@ -64,7 +61,6 @@ export const deletetask = async (req: Request, res: Response) => {
 
     return res.status(200).json({ data: details.data });
   } catch (error: any) {
-    console.log("error", error);
     throw { status: 404, error: error.data };
   }
 };
@@ -79,7 +75,6 @@ export const edittask = async (req: Request, res: Response) => {
 
     return res.status(200).json({ data: details.data });
   } catch (error: any) {
-    console.log("error", error);
     throw { status: 404, error: error.data };
   }
 };
@@ -94,7 +89,6 @@ export const showlist = async (req: Request, res: Response) => {
 
     return res.status(200).json({ data: details.data });
   } catch (error: any) {
-    console.log("error", error);
     throw { status: 404, error: error.data };
   }
 };
