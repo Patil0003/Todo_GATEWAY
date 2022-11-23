@@ -5,16 +5,14 @@ dotenv.config();
 
 const base_url = process.env.BASE_URL;
 
-
 // register
 export const userRegister = async (req: Request, res: Response) => {
   try {
-    
     const details = await axios({
       url: `${base_url}/user/signup`,
       method: "post",
       data: req.body,     
-    
+
     });
 
     return res.status(200).json({ data: details.data });
