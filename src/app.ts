@@ -4,6 +4,8 @@ import bodyParser from "body-parser";
  import serviceRoot from './route/services'
 import { mongoconnection } from './database'
 import dotenv from "dotenv";
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from "./swagger/swagger.json";
 dotenv.config();
   const  app = express();
 
@@ -13,8 +15,10 @@ app.use(cors({ origin: "*" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded(Object({ extended: true })));
 app.use("/user", serviceRoot);
+app.use("/swagger-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const port = process.env.PORT;
+
 app.listen(port, (): void => {
   console.log(`Port :- ${port}`);
 });
