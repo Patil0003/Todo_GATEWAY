@@ -118,11 +118,11 @@
         }
       },
       "/user/delete-task/": {
-        "delete": {
+        "put": {
           "tags": ["Todo-List"],
           "summary": " This is post api for delete task",
           "description": "",
-          "operationId": "update task",
+          "operationId": "delete task",
           "requestBody": {
             "description": "",
             "content": {
