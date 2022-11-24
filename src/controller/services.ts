@@ -8,15 +8,13 @@ dotenv.config();
 const base_url = process.env.BASE_URL;
 const base_url_image = process.env.BASE_URL_IMAGE
 
-
 // register
 export const userRegister = async (req: Request, res: Response) => {
   try {
-
     const details = await axios({
       url: `${base_url}/user/signup`,
       method: "post",
-      data: req.body,
+      data: req.body,     
 
     });
 
@@ -48,7 +46,7 @@ export const addtask = async (req: Request, res: Response) => {
       data: req.body,
     });
 
-    return res.status(200).json({ data: details.data });
+    return res.json({status:200, data: details.data });
   } catch (error: any) {
     throw { status: 404, error: error.data };
   }
@@ -58,7 +56,7 @@ export const deletetask = async (req: Request, res: Response) => {
   try {
     const details = await axios({
       url: `${base_url}/user/delete-task`,
-      method: "delete",
+      method: "put",
       data: req.body,
     });
 

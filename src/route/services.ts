@@ -13,7 +13,7 @@ router.post("/signup", userRegister);
 router.post("/login", userLogin);
 router.post("/add-task", addtask);
 router.put("/update-task", edittask);
-router.delete("/delete-task", deletetask);
+router.put("/delete-task", deletetask);
 router.get("/show-list", showlist);
 router.post("/fileupload",image);
 export default router;
