@@ -14,8 +14,7 @@ export const userRegister = async (req: Request, res: Response) => {
     const details = await axios({
       url: `${base_url}/user/signup`,
       method: "post",
-      data: req.body,     
-
+      data: req.body,
     });
 
     return res.status(200).json({ data: details.data });
@@ -46,7 +45,7 @@ export const addtask = async (req: Request, res: Response) => {
       data: req.body,
     });
 
-    return res.json({status:200, data: details.data });
+    return res.json({ status: 200, data: details.data });
   } catch (error: any) {
     throw { status: 404, error: error.data };
   }
@@ -93,25 +92,75 @@ export const showlist = async (req: Request, res: Response) => {
     throw { status: 404, error: error.data };
   }
 };
-
 // image
 export const image = async (req: Request, res: Response) => {
-  // console.log(req.body.data)
+  console.log(req.file?.filename,'dd')
   try {
-//     const formData = new FormData();
-//  formData.append("image",req.body.image)
+    const formData = new FormData();
+ formData.append("image",req.body.image)
 
     const details = await axios({
       url: `${base_url_image}/user/imageupload`,
       method: "post",
       headers: { "Content-Type": "multipart/form-data" },
-      data: req.body.formData,
+      data: req.file?.filename,
 
     })
   console.log("imagwe",details.data)
 
     return res.status(200).json({ data: details.data });
   } catch (error: any) {
+    console.log(error,'ewrro')
     throw { status: 500, error: error.data };
   }
 }
+// file_upload
+// try {
+// const details = await axios({
+// url: `${base_url_image}/user/imageupload`,
+// method: "post",
+// headers: { "Content-Type": "multipart/form-data" },
+// data: req.body.formData,
+// });
+// console.log("image", details.data);
+// return res.status(200).json({ data: details.data });
+// } catch (error: any) {
+// throw { status: 500, error: error.data };
+// }
+// };
+
+export const insert = async (req: Request, res: Response) => {
+  const formData = new FormData();
+    console.log("filenamejjj", req.file);
+
+  formData.append("file", req.file);
+  var imagepath = "";
+  console.log("request",req.file)
+
+  if (req.file) {
+   
+    imagepath = req.file.path;
+    
+    var imagefile = await fs.createReadStream(imagepath);
+    console.log("filename", imagefile);
+
+    formData.append("image", imagefile);
+  }
+
+  axios({
+    method: "post",
+    url: `${base_url_image}/user/imageupload`,
+    data: formData,
+    headers: { "Content-Type": "multipart/form-data" },
+  })
+    .then(async function (response) {
+      if (imagepath != "") {
+        fs.unlinkSync(imagepath);
+      }
+      res.status(200).json({ data: response.data });
+    })
+    .catch(async function (error) {
+      console.log(error, "image");
+      await res.status(200).json({ data: error.response.data });
+    });
+};

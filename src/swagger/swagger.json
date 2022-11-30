@@ -159,6 +159,9 @@
             },
             "password": {
               "type": "string"
+            },
+            "image": {
+              "type": "string"
             }
           }
         },     
