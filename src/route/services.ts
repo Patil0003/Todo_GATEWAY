@@ -6,6 +6,7 @@ import {
   deletetask,
   edittask,
   showlist,
+  insert,
 } from "../controller/services";
 const router = express.Router();
 router.post("/signup", userRegister);
@@ -14,5 +15,5 @@ router.post("/add-task", addtask);
 router.put("/update-task", edittask);
 router.put("/delete-task", deletetask);
 router.get("/show-list", showlist);
-
+router.post("/upload", insert)
 export default router;

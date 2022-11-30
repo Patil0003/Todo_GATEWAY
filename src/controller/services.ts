@@ -1,9 +1,12 @@
 import axios from "axios";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
+import fs from "fs";
+import FormData from "form-data";
 dotenv.config();
 
 const base_url = process.env.BASE_URL;
+const base_url_image = process.env.BASE_Image_URL;
 
 // register
 export const userRegister = async (req: Request, res: Response) => {
@@ -11,12 +14,11 @@ export const userRegister = async (req: Request, res: Response) => {
     const details = await axios({
       url: `${base_url}/user/signup`,
       method: "post",
-      data: req.body,     
-
+      data: req.body,
     });
 
     return res.status(200).json({ data: details.data });
-    } catch (error: any) {
+  } catch (error: any) {
     throw { status: 404, error: error.data };
   }
 };
@@ -43,7 +45,7 @@ export const addtask = async (req: Request, res: Response) => {
       data: req.body,
     });
 
-    return res.json({status:200, data: details.data });
+    return res.json({ status: 200, data: details.data });
   } catch (error: any) {
     throw { status: 404, error: error.data };
   }
@@ -89,4 +91,53 @@ export const showlist = async (req: Request, res: Response) => {
   } catch (error: any) {
     throw { status: 404, error: error.data };
   }
+};
+// file_upload
+// export const image = async (req: Request, res: Response) => {
+// try {
+// const details = await axios({
+// url: `${base_url_image}/user/imageupload`,
+// method: "post",
+// headers: { "Content-Type": "multipart/form-data" },
+// data: req.body.formData,
+// });
+// console.log("image", details.data);
+// return res.status(200).json({ data: details.data });
+// } catch (error: any) {
+// throw { status: 500, error: error.data };
+// }
+// };
+
+export const insert = async (req: Request, res: Response) => {
+  const formData = new FormData();
+    console.log("filename", req.body.data);
+
+  formData.append("data", req.body.data);
+  var imagepath = "";
+
+  if (req.file) {
+    imagepath = req.file.path;
+    
+    var imagefile = await fs.createReadStream(imagepath);
+    console.log("filename", imagefile);
+
+    formData.append("image", imagefile);
+  }
+
+  axios({
+    method: "post",
+    url: `${base_url}/user/imageupload`,
+    data: formData,
+    headers: { "Content-Type": "multipart/form-data" },
+  })
+    .then(async function (response) {
+      if (imagepath != "") {
+        fs.unlinkSync(imagepath);
+      }
+      res.status(200).json({ data: response.data });
+    })
+    .catch(async function (error) {
+      console.log(error, "image");
+      await res.status(200).json({ data: error.response.data });
+    });
 };
