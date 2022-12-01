@@ -97,7 +97,7 @@ export const image = async (req: Request, res: Response) => {
   console.log(req.file?.filename,'dd')
   try {
     const formData = new FormData();
- formData.append("image",req.body.image)
+ formData.append("image",req.file?.filename)
 
     const details = await axios({
       url: `${base_url_image}/user/imageupload`,
@@ -151,7 +151,7 @@ export const insert = async (req: Request, res: Response) => {
     method: "post",
     url: `${base_url_image}/user/imageupload`,
     data: formData,
-    // headers: { "Content-Type": "multipart/form-data" },
+    headers: { "Content-Type": "multipart/form-data" },
   })
     .then(async function (response) {
       if (imagepath != "") {
@@ -166,17 +166,14 @@ export const insert = async (req: Request, res: Response) => {
 };
 
 export const image1 = async (req: Request, res: Response) => {
-  console.log(req.file);
   
   try {
-    console.log(req,"test");
     
-    console.log("file",req.file)
+    console.log("file",req.file?.filename)
     const details = await axios({
       url: `${base_url_image}/user/imageupload`,
       method: "post",
       data: req.file?.filename,
-      headers: { "Content-Type": "multipart/form-data" },
  
     });
 
