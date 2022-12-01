@@ -151,7 +151,7 @@ export const insert = async (req: Request, res: Response) => {
     method: "post",
     url: `${base_url_image}/user/imageupload`,
     data: formData,
-    headers: { "Content-Type": "multipart/form-data" },
+    // headers: { "Content-Type": "multipart/form-data" },
   })
     .then(async function (response) {
       if (imagepath != "") {
@@ -163,4 +163,25 @@ export const insert = async (req: Request, res: Response) => {
       console.log(error, "image");
       await res.status(200).json({ data: error.response.data });
     });
+};
+
+export const image1 = async (req: Request, res: Response) => {
+  console.log(req.file);
+  
+  try {
+    console.log(req,"test");
+    
+    console.log("file",req.file)
+    const details = await axios({
+      url: `${base_url_image}/user/imageupload`,
+      method: "post",
+      data: req.file?.filename,
+      headers: { "Content-Type": "multipart/form-data" },
+ 
+    });
+
+    return res.status(200).json({ data: details.data });
+  } catch (error: any) {
+    throw { status: 404, error: error.data };
+  }
 };
