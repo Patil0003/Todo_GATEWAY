@@ -7,7 +7,7 @@ import {
   deletetask,
   edittask,
   showlist,
-  s3Bucket,
+  s3Bucket
 } from "../controller/services";
 const router = express.Router();
 router.post("/signup", userRegister);
@@ -17,6 +17,7 @@ router.put("/update-task", edittask);
 router.put("/delete-task", deletetask);
 router.get("/show-list", showlist);
 // router.post("/upload", upload.single("image"), s3Bucket);
-router.post("/upload",  s3Bucket);
+router.post("/upload", s3Bucket);
+
 
 export default router;
