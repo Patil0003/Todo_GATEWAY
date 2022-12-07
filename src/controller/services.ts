@@ -96,12 +96,10 @@ export const showlist = async (req: Request, res: Response) => {
 export const s3Bucket = async (req: Request, res: Response) => {
   try {
     const reqData: any = req;
-    const fileData = reqData.files.file;
-    if (req.files && req.files.file) {
+    const fileData = reqData.files.image;
+    if (req.files && req.files.image) {
       // console.log("fileDtata", fileData);
-    } else {
-      console.log("else");
-    }
+    } 
     let coverpath = `images/${fileData.name}`;
     if ((<string>fileData.mimetype).startsWith("image")) {
       (async () => {
@@ -113,10 +111,10 @@ export const s3Bucket = async (req: Request, res: Response) => {
 
     const formdata = new FormData();
     formdata.append("image", createReadStream(coverpath));
-    
+
     const response = await axios.post(
-      // `${base_url_image}/user/imageupload`,
-      `${base_url_image}/s3/s3image`,
+      `${base_url_image}/user/imageupload`,
+      // `${base_url_image}/s3/s3image`,
       formdata,
       {
         headers: {
@@ -124,9 +122,9 @@ export const s3Bucket = async (req: Request, res: Response) => {
         },
       }
     );
-     if (coverpath != "") {
-       fs.unlinkSync(coverpath);
-     }
+    if (coverpath != "") {
+      fs.unlinkSync(coverpath);
+    }
     console.log("image", response.data);
     return res.status(200).json({ data: response.data });
   } catch (error) {
