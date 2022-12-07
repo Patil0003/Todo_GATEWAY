@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
-import fs from 'fs';
+import fs, { createReadStream } from 'fs';
 import FormData from "form-data";
 dotenv.config();
 
@@ -90,5 +90,44 @@ export const showlist = async (req: Request, res: Response) => {
     return res.status(200).json({ data: details.data });
   } catch (error: any) {
     throw { status: 404, error: error.data };
+  }
+};
+// image_upload
+export const s3Bucket = async (req: Request, res: Response) => {
+  try {
+    const reqData: any = req;
+    const fileData = reqData.files.file;
+    if (req.files && req.files) {
+      // console.log("fileDtata", fileData);
+    } 
+    let coverpath = `images/${fileData.name}`;
+    if ((<string>fileData.mimetype).startsWith("image")) {
+      (async () => {
+        await fileData.mv(coverpath);
+      })();
+    } else {
+      console.log("error occured to copy file");
+    }
+
+    const formdata = new FormData();
+    formdata.append("image", createReadStream(coverpath));
+
+    const response = await axios.post(
+      // `${base_url_image}/user/imageupload`,
+      `${base_url_image}/s3/s3image`,
+      formdata,
+      {
+        headers: {
+          ...formdata.getHeaders(),
+        },
+      }
+    );
+    if (coverpath != "") {
+      fs.unlinkSync(coverpath);
+    }
+    console.log("image", response.data);
+    return res.status(200).json({ data: response.data });
+  } catch (error) {
+    return res.status(404).json({ data: error });
   }
 };
