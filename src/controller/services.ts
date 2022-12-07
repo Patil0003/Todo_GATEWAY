@@ -1,7 +1,8 @@
 import axios from "axios";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
-import fs from "fs";
+import fs, { createReadStream } from "fs";
+import FormData from "form-data";
 dotenv.config();
 
 const base_url = process.env.BASE_URL;
@@ -91,52 +92,56 @@ export const showlist = async (req: Request, res: Response) => {
     throw { status: 404, error: error.data };
   }
 };
-// file_upload
-export const s3Bucket = async (req: Request, res: Response) => {
+// image_upload
+export const ImageUpload = async (req: Request, res: Response) => {
   try {
- 
+    const reqData: any = req;
+    const fileData = reqData.files.image;
+    if (req.files && req.files.image) {
+      // console.log("fileDtata", fileData);
+    } 
+    let coverpath = `images/${fileData.name}`;
+    if ((<string>fileData.mimetype).startsWith("image")) {
+      (async () => {
+        await fileData.mv(coverpath);
+      })();
+    } else {
+      console.log("error occured to copy file");
+    }
+
+    const formdata = new FormData();
+    formdata.append("image", createReadStream(coverpath));
+
+    const response = await axios.post(
+      `${base_url_image}/user/imageupload`,
+      // `${base_url_image}/s3/s3image`,
+      formdata,
+      {
+        headers: {
+          ...formdata.getHeaders(),
+        },
+      }
+    );
+    if (coverpath != "") {
+      fs.unlinkSync(coverpath);
+    }
+    console.log("image", response.data);
+    return res.status(200).json({ data: response.data });
+  } catch (error) {
+    return res.status(404).json({ data: error });
+  }
+};
+// get_Image user/get-image
+export const showImage = async (req: Request, res: Response) => {
+  try {
     const details = await axios({
-      url: `${base_url_image}/s3/s3image`,
-      method: "post",
-      headers: { "Content-Type": "multipart/form-data" },
-      data: req.body.formData,
+      url: `${base_url_image}/user/get-image`,
+      method: "get",
+      data: req.body,
     });
-    console.log("image", details.data);
+
     return res.status(200).json({ data: details.data });
   } catch (error: any) {
-throw { status: 500, error: error.data };
-}
+    throw { status: 404, error: error.data };
+  }
 };
-// export const insert = async (req: Request, res: Response) => {
-//   const formData = new FormData();
-//     console.log("filename", req.body.data);
-
-//   formData.append("data", req.body.data);
-//   var imagepath = "";
-
-//   if (req.file) {
-//     imagepath = req.file.path;
-    
-//     var imagefile = await fs.createReadStream(imagepath);
-//     console.log("filename", imagefile);
-
-//     formData.append("image", imagefile);
-//   }
-
-//   axios({
-//     method: "post",
-//     url: `${base_url_image}/user/imageupload`,
-//     data: formData,
-//     headers: { "Content-Type": "multipart/form-data" },
-//   })
-//     .then(async function (response) {
-//       if (imagepath != "") {
-//         fs.unlinkSync(imagepath);
-//       }
-//       res.status(200).json({ data: response.data });
-//     })
-//     .catch(async function (error) {
-//       console.log(error, "image");
-//       await res.status(200).json({ data: error.response.data });
-//     });
-// };
