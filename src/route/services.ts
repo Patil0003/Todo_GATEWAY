@@ -1,5 +1,6 @@
 import express from "express";
-import { upload } from "../middleware/uploadfile";
+// import { upload } from "../middleware/uploadfile";
+// import { upload } from "../middleware/s3.bucket";
 import {
   userRegister,
   userLogin,
@@ -7,7 +8,7 @@ import {
   deletetask,
   edittask,
   showlist,
-  insert,
+  // S3Bucket
 } from "../controller/services";
 const router = express.Router();
 router.post("/signup", userRegister);
@@ -16,5 +17,6 @@ router.post("/add-task", addtask);
 router.put("/update-task", edittask);
 router.put("/delete-task", deletetask);
 router.get("/show-list", showlist);
-router.post("/upload",upload.single('image'),insert);
+// router.post("/upload",upload.single('image'),image1);
+// router.post("/s3bucket", S3Bucket)
 export default router;
