@@ -93,7 +93,7 @@ export const showlist = async (req: Request, res: Response) => {
   }
 };
 // image_upload
-export const s3Bucket = async (req: Request, res: Response) => {
+export const ImageUpload = async (req: Request, res: Response) => {
   try {
     const reqData: any = req;
     const fileData = reqData.files.image;
@@ -129,5 +129,19 @@ export const s3Bucket = async (req: Request, res: Response) => {
     return res.status(200).json({ data: response.data });
   } catch (error) {
     return res.status(404).json({ data: error });
+  }
+};
+// get_Image user/get-image
+export const showImage = async (req: Request, res: Response) => {
+  try {
+    const details = await axios({
+      url: `${base_url_image}/user/get-image`,
+      method: "get",
+      data: req.body,
+    });
+
+    return res.status(200).json({ data: details.data });
+  } catch (error: any) {
+    throw { status: 404, error: error.data };
   }
 };
