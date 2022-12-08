@@ -18,7 +18,7 @@
       }
     ],
     "paths": {
-      "/user/signup/": {
+      "/gateway/signup/": {
         "post": {
           "tags": ["Todo-List"],
           "summary": " This is post api for user registration",
@@ -42,7 +42,7 @@
           }
         }
       },
-      "/user/login/": {
+      "/gateway/login/": {
         "post": {
           "tags": ["Todo-List"],
           "summary": " This is post api for user login",
@@ -67,7 +67,7 @@
           }
         }
       },
-      "/user/add-task/": {
+      "/gateway/add-task/": {
         "post": {
           "tags": ["Todo-List"],
           "summary": " This is post api for add task",
@@ -92,7 +92,7 @@
           }
         }
       },
-      "/user/update-task/": {
+      "/gateway/update-task/": {
         "put": {
           "tags": ["Todo-List"],
           "summary": " This is post api for update task",
@@ -117,7 +117,7 @@
           }
         }
       },
-      "/user/delete-task/": {
+      "/gateway/delete-task/": {
         "put": {
           "tags": ["Todo-List"],
           "summary": " This is post api for delete task",
@@ -138,6 +138,30 @@
             "200": {
               "description": "success response"
               
+            }
+          }
+        }
+      },
+      "/gateway/upload/": {
+        "post": {
+          "tags": ["Todo-List"],
+          "summary": " This is post api for upload image",
+          "description": "",
+          "operationId": "adding image",
+          "requestBody": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/imageupload"
+                }
+              }
+            }
+          },
+  
+          "responses": {
+            "200": {
+              "description": "success response"
             }
           }
         }
@@ -177,6 +201,14 @@
             "todo": {
               "type": "string"
             }
+          }
+        }, "imageupload": {
+          "type": "object",
+          "properties": {
+            "image": {
+              "type": "string"
+            }
+           
           }
         }
       }
