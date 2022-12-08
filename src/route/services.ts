@@ -1,7 +1,4 @@
 import express from "express";
-// import { upload } from "../middleware/uploadfile";
-import { upload } from "../middleware/s3.bucket";
-// import {upload } from '../middleware/s3bucket'
 import {
   userRegister,
   userLogin,
@@ -10,10 +7,10 @@ import {
   edittask,
   showlist,
   // S3Bucket
-  
   ImageUpload,
   showImage,
 } from "../controller/services";
+
 const router = express.Router();
 router.post("/signup", userRegister);
 router.post("/login", userLogin);
