@@ -1,5 +1,4 @@
 import express from "express";
-// import {upload } from '../middleware/s3bucket'
 import {
   userRegister,
   userLogin,
@@ -10,6 +9,7 @@ import {
   ImageUpload,
   showImage,
 } from "../controller/services";
+
 const router = express.Router();
 router.post("/signup", userRegister);
 router.post("/login", userLogin);
