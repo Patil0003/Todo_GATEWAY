@@ -3,20 +3,26 @@ import { Request, Response } from "express";
 import dotenv from "dotenv";
 import fs, { createReadStream } from "fs";
 import FormData from "form-data";
-dotenv.config();
+const { v4: uuidv4 } = require("uuid");
 
+dotenv.config();
 const base_url = process.env.BASE_URL;
 const base_url_image = process.env.BASE_Image_URL;
+
 
 // register
 export const userRegister = async (req: Request, res: Response) => {
   try {
+const userId = uuidv4();
+console.log("Uid=", userId)
+    userId;
+
     const details = await axios({
       url: `${base_url}/user/signup`,
       method: "post",
       data: req.body,
+      
     });
-
     return res.status(200).json({ data: details.data });
   } catch (error: any) {
     throw { status: 404, error: error.data };
@@ -30,7 +36,6 @@ export const userLogin = async (req: Request, res: Response) => {
       method: "post",
       data: req.body,
     });
-
     return res.status(200).json({ data: details.data });
   } catch (error: any) {
     throw { status: 404, error: error.data };
@@ -44,7 +49,6 @@ export const addtask = async (req: Request, res: Response) => {
       method: "post",
       data: req.body,
     });
-
     return res.json({ status: 200, data: details.data });
   } catch (error: any) {
     throw { status: 404, error: error.data };
@@ -99,7 +103,7 @@ export const ImageUpload = async (req: Request, res: Response) => {
     const fileData = reqData.files.image;
     if (req.files && req.files.image) {
       // console.log("fileDtata", fileData);
-    } 
+    }
     let coverpath = `images/${fileData.name}`;
     if ((<string>fileData.mimetype).startsWith("image")) {
       (async () => {
@@ -125,13 +129,13 @@ export const ImageUpload = async (req: Request, res: Response) => {
     if (coverpath != "") {
       fs.unlinkSync(coverpath);
     }
-    console.log("image", response.data);
+    // console.log("image", response.data);
     return res.status(200).json({ data: response.data });
   } catch (error) {
     return res.status(404).json({ data: error });
   }
 };
-// get_Image user/get-image
+// get_Image
 export const showImage = async (req: Request, res: Response) => {
   try {
     const details = await axios({
@@ -139,7 +143,6 @@ export const showImage = async (req: Request, res: Response) => {
       method: "get",
       data: req.body,
     });
-
     return res.status(200).json({ data: details.data });
   } catch (error: any) {
     throw { status: 404, error: error.data };
