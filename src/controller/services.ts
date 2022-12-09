@@ -1,23 +1,20 @@
 import axios from "axios";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
-import fs, { createReadStream } from 'fs';
+import fs, { createReadStream } from "fs";
 import FormData from "form-data";
 
 dotenv.config();
 const base_url = process.env.BASE_URL;
-const base_url_image = process.env.BASE_URL_IMAGE
-
+const base_url_image = process.env.BASE_URL_IMAGE;
 
 // register
 export const userRegister = async (req: Request, res: Response) => {
   try {
-    
     const details = await axios({
       url: `${base_url}/user/signup`,
       method: "post",
       data: req.body,
-
     });
     return res.status(200).json({ data: details.data });
   } catch (error: any) {
@@ -95,8 +92,7 @@ export const showlist = async (req: Request, res: Response) => {
 // image_upload
 export const ImageUpload = async (req: Request, res: Response) => {
   try {
-
-    const email: any = req.body?.email
+    const email: any = req.body?.email;
     const reqData: any = req;
     const fileData = reqData.files.file;
     if (req.files && req.files) {
@@ -136,9 +132,8 @@ export const ImageUpload = async (req: Request, res: Response) => {
 // get_Image
 export const showImage = async (req: Request, res: Response) => {
   try {
-    const email: any = req.query?.email
+    const email: any = req.query?.email;
     const details = await axios({
-
       url: `${base_url_image}/user/get-image?email=${email}`,
       method: "get",
       data: req.body,
