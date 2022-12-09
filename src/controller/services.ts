@@ -3,7 +3,6 @@ import { Request, Response } from "express";
 import dotenv from "dotenv";
 import fs, { createReadStream } from 'fs';
 import FormData from "form-data";
-const { v4: uuidv4 } = require("uuid");
 
 dotenv.config();
 const base_url = process.env.BASE_URL;
@@ -13,10 +12,7 @@ const base_url_image = process.env.BASE_URL_IMAGE
 // register
 export const userRegister = async (req: Request, res: Response) => {
   try {
-    const userId = uuidv4();
-    console.log("Uid=", userId)
-    userId;
-
+    
     const details = await axios({
       url: `${base_url}/user/signup`,
       method: "post",
