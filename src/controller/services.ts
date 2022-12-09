@@ -1,27 +1,27 @@
 import axios from "axios";
 import { Request, Response } from "express";
 import dotenv from "dotenv";
-import fs, { createReadStream } from "fs";
+import fs, { createReadStream } from 'fs';
 import FormData from "form-data";
 const { v4: uuidv4 } = require("uuid");
 
 dotenv.config();
 const base_url = process.env.BASE_URL;
-const base_url_image = process.env.BASE_Image_URL;
+const base_url_image = process.env.BASE_URL_IMAGE
 
 
 // register
 export const userRegister = async (req: Request, res: Response) => {
   try {
-const userId = uuidv4();
-console.log("Uid=", userId)
+    const userId = uuidv4();
+    console.log("Uid=", userId)
     userId;
 
     const details = await axios({
       url: `${base_url}/user/signup`,
       method: "post",
       data: req.body,
-      
+
     });
     return res.status(200).json({ data: details.data });
   } catch (error: any) {
@@ -99,9 +99,11 @@ export const showlist = async (req: Request, res: Response) => {
 // image_upload
 export const ImageUpload = async (req: Request, res: Response) => {
   try {
+
+    const email: any = req.body?.email
     const reqData: any = req;
-    const fileData = reqData.files.image;
-    if (req.files && req.files.image) {
+    const fileData = reqData.files.file;
+    if (req.files && req.files) {
       // console.log("fileDtata", fileData);
     }
     let coverpath = `images/${fileData.name}`;
@@ -115,6 +117,7 @@ export const ImageUpload = async (req: Request, res: Response) => {
 
     const formdata = new FormData();
     formdata.append("image", createReadStream(coverpath));
+    formdata.append("email", email);
 
     const response = await axios.post(
       `${base_url_image}/user/imageupload`,
@@ -129,7 +132,6 @@ export const ImageUpload = async (req: Request, res: Response) => {
     if (coverpath != "") {
       fs.unlinkSync(coverpath);
     }
-    // console.log("image", response.data);
     return res.status(200).json({ data: response.data });
   } catch (error) {
     return res.status(404).json({ data: error });
@@ -138,8 +140,10 @@ export const ImageUpload = async (req: Request, res: Response) => {
 // get_Image
 export const showImage = async (req: Request, res: Response) => {
   try {
+    const email: any = req.query?.email
     const details = await axios({
-      url: `${base_url_image}/user/get-image`,
+
+      url: `${base_url_image}/user/get-image?email=${email}`,
       method: "get",
       data: req.body,
     });

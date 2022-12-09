@@ -141,6 +141,30 @@
             }
           }
         }
+      },
+      "/gateway/upload/": {
+        "post": {
+          "tags": ["Todo-List"],
+          "summary": " This is post api for upload image",
+          "description": "",
+          "operationId": "adding image",
+          "requestBody": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/imageupload"
+                }
+              }
+            }
+          },
+  
+          "responses": {
+            "200": {
+              "description": "success response"
+            }
+          }
+        }
       }
     },
     "components": {
@@ -177,6 +201,14 @@
             "todo": {
               "type": "string"
             }
+          }
+        }, "imageupload": {
+          "type": "object",
+          "properties": {
+            "image": {
+              "type": "string"
+            }
+           
           }
         }
       }
